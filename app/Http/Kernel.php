@@ -39,6 +39,8 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            // EnsureFrontendRequestsAreStateful::class is commented out because
+            // we want to use TOKEN and not cookies
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
