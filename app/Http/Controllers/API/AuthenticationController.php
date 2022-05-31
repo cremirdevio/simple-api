@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
 class AuthenticationController extends Controller
@@ -12,14 +13,14 @@ class AuthenticationController extends Controller
     public function login(Request $request)
     {
         $validated = $request->validate([
-            'username' => 'required|email|max:255',
-            'password' => 'required|min:8',
+            'username' => ['required', 'unique:users', 'max:255'],
+            'password' => ['required', 'string', 'min:8'],
         ]);
 
         $user = \App\Models\User::where('username', $request->username)->first();
 
         if (is_null($user)) {
-            abort(400, 'You don\'t have an account with us');
+            abort(404, 'You don\'t have an account with us');
         }
 
         $user->tokens()->delete();
