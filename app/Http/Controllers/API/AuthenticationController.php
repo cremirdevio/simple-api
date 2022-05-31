@@ -13,7 +13,7 @@ class AuthenticationController extends Controller
     public function login(Request $request)
     {
         $validated = $request->validate([
-            'username' => ['required', 'unique:users', 'max:255'],
+            'username' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:8'],
         ]);
 
@@ -39,5 +39,10 @@ class AuthenticationController extends Controller
         $user = auth()->user();
         $user->tokens()->delete();
         return response()->json([], 204);
+    }
+
+    public function register()
+    {
+
     }
 }
