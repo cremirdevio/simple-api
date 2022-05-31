@@ -32,14 +32,21 @@ class AuthenticationController extends Controller
             ]);
         }
 
-        return $user->createToken($request->username)->plainTextToken;
+        $token = $user->createToken($request->username)->plainTextToken;
+
+        return response()->json([
+            "message" => "Login Successful",
+            "authToken" => $token
+        ]);
     }
 
     public function logout()
     {
         $user = auth()->user();
         $user->tokens()->delete();
-        return response()->json([], 204);
+        return response()->json([
+            "message" => "Logged out successfully"
+        ], 200);
     }
 
     public function register(Request $request)
