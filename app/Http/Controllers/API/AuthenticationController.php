@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Actions\Fortify\CreateNewUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -41,8 +42,10 @@ class AuthenticationController extends Controller
         return response()->json([], 204);
     }
 
-    public function register()
+    public function register(Request $request)
     {
+        $user = (new CreateNewUser)->create($request->all());
 
+        return response()->json([], 204);
     }
 }
